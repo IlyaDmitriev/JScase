@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	    h1 {
+	    	text-decoration: underline;
+	    }
+		table {
+			margin: 0px auto;
+		}
+		body {
+			text-align: center;
+			font-family: URW Chancery L, cursive;
+		}
+		h1 {
+			color: #CC325BFF;
+		}
+		td, th {
+			height: 25px;
+			width: 80px;
+		}
+		p, span {
+			font-size: 35px;
+		}
+
+		</style>
+    <script>
+    function startinfinitytimer() {
+	window.setInterval(infinitytimer, 1000);
+}
+
+function infinitytimer() {
+	var elem = document.getElementById('infinity'); //получаем наш инпут
+	elem.innerHTML = parseInt(elem.innerHTML)+1; //увеличиваем значение атрибута на единицу
+}
+
+function starttimer(){
+	window.timerId = window.setInterval(timer, 500);
+	document.getElementById('starttimer').disabled = true;
+	document.getElementById('stoptimer').disabled = false;
+}
+
+function stoptimer(){
+	window.clearInterval(window.timerId);
+	document.getElementById('starttimer').disabled = false;
+	document.getElementById('stoptimer').disabled = true;
+}
+
+function timer(){
+	var test = document.getElementById('timer');
+	test.innerHTML = parseInt(test.innerHTML)+1;
+}
+
+function go(){
+	window.timerId = window.setInterval(timerclock, 1000);
+	window.timerId = window.setInterval(timerRemaining,1000);
+}
+
+function timerclock(){
+    var clock = document.getElementById('clock');
+ 	var date = new Date();
+	clock.innerHTML = addZero(date.getHours())+':'+addZero(date.getMinutes())+':'+addZero(date.getSeconds());
+}
+
+function addZero(num){
+	if(num <=9) return '0'+num;
+	else return num;
+}
+
+function startcarousel(){
+	window.timerId = window.setInterval(timercarousel, 1000);
+	document.getElementById('startcarousel').disabled = true;
+	document.getElementById('stopcarousel').disabled = false;
+}
+
+function stopcarousel(){
+	window.clearInterval(window.timerId);
+	document.getElementById('startcarousel').disabled = false;
+	document.getElementById('stopcarousel').disabled = true;
+}
+
+function timercarousel(){
+	var img1 = document.getElementById('img1');
+	var img2 = document.getElementById('img2');
+	var img3 = document.getElementById('img3');
+	var img4 = document.getElementById('img4');
+	var img5 = document.getElementById('img5');
+	var helper = img1.innerHTML;
+	img1.innerHTML = img2.innerHTML;
+	img2.innerHTML = img3.innerHTML;
+	img3.innerHTML = img4.innerHTML;
+	img4.innerHTML = img5.innerHTML;
+	img5.innerHTML = helper;
+	
+}
+
+function timerRemaining() {
+	var seconds = document.getElementById('seconds');
+	var minutes = document.getElementById('minutes');
+    var hours = document.getElementById('hours');
+    var now = new Date();
+    var midnight = new Date(now.getFullYear(),now.getMonth(),now.getDate()+1,0,0,0);
+    var diff = Math.floor((midnight-now)/1000);
+    var hoursRemain = Math.floor(diff/(60*60));
+    var minutesRemain = Math.floor((diff-hoursRemain*60*60)/60);
+    var secondsRemain = Math.floor(diff%60);
+    hours.innerHTML = addZero(hoursRemain);
+    minutes.innerHTML = addZero(minutesRemain);
+    seconds.innerHTML = addZero(secondsRemain);
+}
+    </script>
+    
+</head>
+<body onload = 'go()'>
+<h1>Work with Timer</h1>
+<h2>Click the button and then starts counting to infinity</h2>
+    <p id = 'infinity'> 0 </p>
+    <input type="submit" value="start count to infinity" onclick="startinfinitytimer()">
+<h2>This is the same timer, but it can be stopped</h2>
+	<p id="timer"> 0 </p>
+	<input type="submit" value="start timer"  onclick="starttimer()" id="starttimer">
+	<input type="submit" value="stop timer"  onclick="stoptimer()"  id="stoptimer" disabled>
+<h2>This timer shows current time</h2>
+<p id="clock"> 00:00:00 </p>
+<h2>Elementary carousel made with the help of a timer(it can be stopped)</h2>
+	<span id="img1">[[1]]</span>
+	<span id="img2">[[2]]</span>
+	<span id="img3">[[3]]</span>
+	<span id="img4">[[4]]</span>
+	<span id="img5">[[5]]</span>
+	<p><input type="submit" value="start carousel"  onclick="startcarousel()" id="startcarousel">
+    <input type="submit" value="stop carousel"  onclick="stopcarousel()"  id="stopcarousel" disabled></p>
+<h2>Countdown to the end of the day</h2>
+<div id=wrapper>
+	<table border ="1" cellspacing="0" cellpadding="0">
+	<tr>
+		<th> hours </th>
+		<th> minutes </th>
+		<th> seconds </th>
+	</tr>
+	<tr>
+		<td id = "hours"></td>
+		<td id = "minutes"></td>
+		<td id = "seconds"></td>
+	</tr>
+</table>
+</div>
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>	
+</body>
+</html>
