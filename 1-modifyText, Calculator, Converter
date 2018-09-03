@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		body, input, select {
+			font-family: URW Chancery L, cursive;
+		}
+		select, input {
+			border: 2px solid #1DB;
+			font-weight:bold;
+
+		}
+		#calc {
+			width: 220px;
+			padding-bottom: 10px;
+			border: 2px solid #1DB;
+			font-size: 0;
+			margin: 0 auto;
+			position: relative;
+			border-radius: 8px;
+			font-family: URW Chancery L, cursive;
+			background-color:#d3fad6;
+		}
+		
+		#display {
+			display: block;
+			width: 205px;
+			height: 30px;
+			border: 1px solid #1DB;
+			margin: 0 auto;
+			margin: 4px;
+			text-align: right;
+			outline: 0;
+			background: #8dfbe0;
+			padding-right: 5px;
+			border-radius: 8px;
+		}
+		.button {
+			width: 45px;
+			height: 35px;
+			line-height: 30px;
+			display: inline-block;
+			cursor: pointer;
+			border: 1px solid #1DB;
+			margin: 4px;
+			font-size: 16px;
+			text-align: center;
+			border-radius: 9px;
+		}
+		.button:hover {
+			background: #4EC;
+			color: #444
+		}
+		.button_C {
+			position: absolute;
+			left: 12px;
+			top: 6px;
+			width: 20px;
+			height: 20px;
+			font-size: 12px;
+			line-height: 20px;
+			border-radius: 7px;
+			background-color: #0cf8f7;
+			font-weight:bold;
+		}
+		table {
+			border: 2px solid #1DB;
+			margin: 0 auto;
+			font-family: URW Chancery L, cursive;
+			
+		}
+		#display {
+			font-family: URW Chancery L, cursive;
+			font-weight:bold;
+		}
+		h1 {
+			text-align: center;
+			font-family: URW Chancery L, cursive;
+		}
+
+	</style>
+	<script>
+		//choose oone property
+
+var element = document.getElementsByTagName('input');
+for (var i = 0; i < element.length; i++) {
+	element[i].addEventListener('change', changeF);
+}
+var p = document.getElementById('text');
+
+function changeF() {
+	if (this.checked) {
+		p.style.cssText = this.value;
+	}
+	else {
+		p.style.cssText = 'none';
+	}
+}	
+
+//calculator
+
+var calc = document.getElementById('calc');
+var buttons = calc.getElementsByClassName('button');
+var display = document.getElementById('display');
+var str = '';
+for (var i = 0; i < buttons.length; i++) {
+	addEvent(buttons[i]);               
+	}
+function addEvent(button) {
+    button.addEventListener('click', event);
+	function event() {
+		var type = button.getAttribute('data-type');  
+		if (type === '=') {
+			str = eval(str);
+			display.value = str;
+			return;
+		} else if (type === 'C') {
+			str = '';
+		} else {
+			str += type;
+		}
+		display.value = str;
+	}
+}
+
+//currency converter
+
+var rates = {'rur':1.00, 'usd':68.08, 'eur':78.99};
+var firstCurr = document.getElementById('firstCurr');
+var secondCurr = document.getElementById('secondCurr');
+var num = document.getElementById('num');
+var result = document.getElementById('result');
+var answer = 0;
+
+firstCurr.addEventListener('change', func);
+secondCurr.addEventListener('change', func);
+num.addEventListener('keyup', func);
+
+function func() {
+	if (firstCurr.value != secondCurr.value) {
+		result.innerHTML = '';
+		answer = rates[firstCurr.value]/rates[secondCurr.value] * num.value;
+		result.innerHTML = answer;
+	} else {
+		alert('ERROR! Shoose another currency');
+  
+	}
+}
+
+	</script>
+</head>
+<body>
+	<h1> Choose one property </h1>
+<table border="4" cellspacing="0">
+	<tr>
+		<td colspan = '3' align="center"> <p id='text'> Text for test </p> </td>
+	</tr>
+	<tr>
+		<td><input type="checkbox" value="text-decoration:line-through;">text-decoration:line-through</td>  
+		<td><input type="checkbox" value="font-weight:bold;"> font-weight:bold  </td>
+		<td><input type="checkbox" value="color:#CE3047FF"> color:#CE3047FF </td>
+	</tr>
+</table>
+
+	<h1> Calulate something </h1>
+<div id="calc">
+	<input type="text" id="display" disabled>
+	<div class="button button_C" title="Очистить" data-type="C">C</div>
+	<div class="button" data-type="7">7</div>
+	<div class="button" data-type="8">8</div>
+	<div class="button" data-type="9">9</div>
+	<div class="button" data-type="/">&divide;</div>
+	<div class="button" data-type="4">4</div>
+	<div class="button" data-type="5">5</div>
+	<div class="button" data-type="6">6</div>
+	<div class="button" data-type="*">&times;</div>
+	<div class="button" data-type="1">1</div>
+	<div class="button" data-type="2">2</div>
+	<div class="button" data-type="3">3</div>
+	<div class="button" data-type="-">-</div>
+	<div class="button" data-type="0">0</div>
+	<div class="button" data-type=".">.</div>
+	<div class="button" data-type="=">=</div>
+	<div class="button" data-type="+">+</div>
+</div> 
+
+	<h1> Currency converter </h1>
+<table>
+<tr> <td>	Buy:
+<select name="firstCurr" id="firstCurr">
+	<option value="rur"> Ruble </option>
+	<option value="usd" selected> Dollar </option>
+	<option value="eur"> Euro </option>
+</select>
+for:
+<select name="secondCurr" id="secondCurr">
+	<option value="rur" selected=""> Ruble </option>
+	<option value="usd"> Dollar </option>
+	<option value="eur"> Euro </option>
+</select>
+<label for="num">: Necessary sum </label><input type="text" id="num">
+<p>Need to pay: <b id="result"></b></p> </td></tr>
+   </table>
+
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+</body>
+</html>	
